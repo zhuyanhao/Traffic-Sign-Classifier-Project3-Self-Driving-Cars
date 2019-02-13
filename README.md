@@ -119,15 +119,25 @@ My final model results were:
 * test set accuracy of ?
 
 An iterative approach is taken and explained below:
-* What was the first architecture that was tried and why was it chosen?
+
+***What was the first architecture that was tried and why was it chosen?***
+
 I started with the LeNet model given in the lecture. I was only able to achieve around 90% accuracy no matter what parameters I changed.
-* What were some problems with the initial architecture?
+
+***What were some problems with the initial architecture?***
+
 The validation accuracy is lower than required; the test accuracy is roughly the same, which indicates a high bias(under fitting) scenario. So a larger model is needed to decrease the bias.
-* How was the architecture adjusted and why was it adjusted? Typical adjustments could include choosing a different model architecture, adding or taking away layers (pooling, dropout, convolution, etc), using an activation function or changing the activation function. One common justification for adjusting an architecture would be due to overfitting or underfitting. A high accuracy on the training set but low accuracy on the validation set indicates over fitting; a low accuracy on both sets indicates under fitting.
+
+***How was the architecture adjusted and why was it adjusted? Typical adjustments could include choosing a different model architecture, adding or taking away layers (pooling, dropout, convolution, etc), using an activation function or changing the activation function. One common justification for adjusting an architecture would be due to overfitting or underfitting. A high accuracy on the training set but low accuracy on the validation set indicates over fitting; a low accuracy on both sets indicates under fitting.***
+
 Since the model is under fitting, it is reasonable to make the model larger and deeper. I added a 1x1 convolution layer before the fully connected layer to increase the nonlinearity of the model. Then the model overfits the training/validation set. So dropout layer is added after each fully connected layer. With these two changes, the model is good enough to meet the requirement of project.
-* Which parameters were tuned? How were they adjusted and why?
+
+***Which parameters were tuned? How were they adjusted and why?***
+
 The only hyper parameter tuned is the learning rate. It is decreased from 1e-3 to 1e-4 as the accuracy starts to decrease after only a few iterations with 1e-3. Decreasing it solves the problem.
-* What are some of the important design choices and why were they chosen? For example, why might a convolution layer work well with this problem? How might a dropout layer help with creating a successful model?
+
+***What are some of the important design choices and why were they chosen? For example, why might a convolution layer work well with this problem? How might a dropout layer help with creating a successful model?***
+
 Convolution layer is used as it is very common in computer vision task. It shares the parameters in each filter so that the number of parameters is reasonable. Also, spatial correlation can be learned from convolutional layer. Dropout layer is used to prevent over-fitting. The softmax layer is used as it is the most commonly used for classification.
  
 
@@ -139,8 +149,6 @@ Here are five German traffic signs that I found on the web:
 
 ![alt text][image6] ![alt text][image7] ![alt text][image8] 
 ![alt text][image9] ![alt text][image10]
-
-The first image might be difficult to classify because ...
 
 #### 2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
 
@@ -173,8 +181,5 @@ For the first image, the model is relatively sure that this is a stop sign (prob
 
 
 For the second image ... 
-
-### (Optional) Visualizing the Neural Network (See Step 4 of the Ipython notebook for more details)
-#### 1. Discuss the visual output of your trained network's feature maps. What characteristics did the neural network use to make classifications?
 
 
