@@ -17,9 +17,9 @@ The goals / steps of this project are the following:
 [//]: # (Image References)
 
 [image1]: ./figures/30km_h.PNG "Speed Limit of 30km/h"
-[image2]: ./examples/grayscale.jpg "Grayscaling"
-[image3]: ./examples/random_noise.jpg "Random Noise"
-[image4]: ./examples/placeholder.png "Traffic Sign 1"
+[image2]: ./figures/30km_h.PNG "Original"
+[image3]: ./figures/30km_h_gray.PNG "Grayscale"
+[image4]: ./figures/distribution_original.PNG "Original Dataset Distribution"
 [image5]: ./examples/placeholder.png "Traffic Sign 2"
 [image6]: ./examples/placeholder.png "Traffic Sign 3"
 [image7]: ./examples/placeholder.png "Traffic Sign 4"
@@ -56,6 +56,10 @@ The dataset we used is German Traffic Sign Dataset. Below is an example of traff
 
 ![alt text][image1]
 
+The distribution of dataset is also shown below:
+
+![alt text][image4]
+
 ### Design and Test a Model Architecture
 
 #### 1. Describe how you preprocessed the image data. What techniques were chosen and why did you choose these techniques? Consider including images showing the output of each preprocessing technique. Pre-processing refers to techniques such as converting to grayscale, normalization, etc. (OPTIONAL: As described in the "Stand Out Suggestions" part of the rubric, if you generated additional data for training, describe why you decided to generate additional data, how you generated the data, and provide example images of the additional data. Then describe the characteristics of the augmented training set like number of images in the set, number of images for each class, etc.)
@@ -64,19 +68,13 @@ As a first step, I decided to convert the images to grayscale because this is th
 
 Here is an example of a traffic sign image before and after grayscaling.
 
-![alt text][image2]
+![alt text][image2] ![alt text][image3]
 
-As a last step, I normalized the image data because ...
+I've also done some affine transformation to increase the number of traffic signs. The dataset given is imbalanced; some types of traffic sings outnumber the others. This does impair the network performance quite a lot. Without any data augmentation, the accuracy of classifier can hardly surpass 90%. The mistakes made has a strong correlation with the number of samples for each type of sign. 
 
-I decided to generate additional data because ... 
+So, the main purpose of this step is simply to make dataset more balanced. This could be done by any types of affine transformation. 
 
-To add more data to the the data set, I used the following techniques because ... 
-
-Here is an example of an original image and an augmented image:
-
-![alt text][image3]
-
-The difference between the original data set and the augmented data set is the following ... 
+After the dataset is generated, normalization suggested in the lecture is done.
 
 
 #### 2. Describe what your final model architecture looks like including model type, layers, layer sizes, connectivity, etc.) Consider including a diagram and/or table describing the final model.
