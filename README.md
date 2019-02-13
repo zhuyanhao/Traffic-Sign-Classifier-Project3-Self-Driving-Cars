@@ -114,9 +114,9 @@ After the data augmentation, the dataset is spliited by sklearn and fed to the n
 #### 4. Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93. Include in the discussion the results on the training, validation and test sets and where in the code these were calculated. Your approach may have been an iterative process, in which case, outline the steps you took to get to the final solution and why you chose those steps. Perhaps your solution involved an already well known implementation or architecture. In this case, discuss why you think the architecture is suitable for the current problem.
 
 My final model results were:
-* training set accuracy of ?
-* validation set accuracy of ? 
-* test set accuracy of ?
+* training set accuracy of 99.4%
+* validation set accuracy of 98.8%
+* test set accuracy of 92.1%
 
 An iterative approach is taken and explained below:
 
@@ -156,30 +156,69 @@ Here are the results of the prediction:
 
 | Image			        |     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
-| Stop Sign      		| Stop sign   									| 
-| U-turn     			| U-turn 										|
-| Yield					| Yield											|
-| 100 km/h	      		| Bumpy Road					 				|
-| Slippery Road			| Slippery Road      							|
+| Bumpy road      		| Bumpy road   									| 
+| No vehicles     			| Speed limit (100km/h) 										|
+| Go straight or left					| Go straight or left											|
+| Speed limit (30km/h)	      		| Speed limit (30km/h)					 				|
+| Ahead only			| Ahead only      							|
 
 
-The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. This compares favorably to the accuracy on the test set of ...
+The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. This compares favorably to the accuracy on the test set of 92.1%.
 
 #### 3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability. (OPTIONAL: as described in the "Stand Out Suggestions" part of the rubric, visualizations can also be provided such as bar charts)
 
-The code for making predictions on my final model is located in the 11th cell of the Ipython notebook.
+The code for making predictions on my final model is located in last few cells of Jupyter notebook. The certainty is quite high for the prediction. The result is shown below:
 
-For the first image, the model is relatively sure that this is a stop sign (probability of 0.6), and the image does contain a stop sign. The top five soft max probabilities were
+For the first image:
 
 | Probability         	|     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
-| .60         			| Stop sign   									| 
-| .20     				| U-turn 										|
-| .05					| Yield											|
-| .04	      			| Bumpy Road					 				|
-| .01				    | Slippery Road      							|
+| 1.00         			| Bumpy road   									| 
+| 0.00     				| Speed limit (20km/h) 										|
+| 0.00					| Speed limit (30km/h)											|
+| 0.00	      			| Speed limit (50km/h)					 				|
+| 0.00				    | Speed limit (60km/h)      							|
 
 
-For the second image ... 
+For the second image:
 
 
+| Probability         	|     Prediction	        					| 
+|:---------------------:|:---------------------------------------------:| 
+| 1.00         			| Speed limit (100km/h)   									| 
+| 0.00     				| Speed limit (50km/h) 										|
+| 0.00					| Speed limit (20km/h)											|
+| 0.00	      			| Speed limit (30km/h)					 				|
+| 0.00				    | Speed limit (60km/h)      							|
+
+
+For the third image:
+
+
+| Probability         	|     Prediction	        					| 
+|:---------------------:|:---------------------------------------------:| 
+| 1.00         			| Go straight or left   									| 
+| 0.00     				| Speed limit (20km/h) 										|
+| 0.00					| Speed limit (30km/h)											|
+| 0.00	      			| Speed limit (50km/h)					 				|
+| 0.00				    | Speed limit (60km/h)      							|
+
+For the fourth image:
+
+| Probability         	|     Prediction	        					| 
+|:---------------------:|:---------------------------------------------:| 
+| 1.00         			| Speed limit (30km/h)   									| 
+| 0.00     				| Speed limit (20km/h) 										|
+| 0.00					| Speed limit (50km/h)											|
+| 0.00	      			| Speed limit (60km/h)					 				|
+| 0.00				    | Speed limit (70km/h)      							|
+
+For the fifth image:
+
+| Probability         	|     Prediction	        					| 
+|:---------------------:|:---------------------------------------------:| 
+| 1.00         			| Ahead only   									| 
+| 0.00     				| Speed limit (20km/h) 										|
+| 0.00					| Speed limit (30km/h)											|
+| 0.00	      			| Speed limit (50km/h)					 				|
+| 0.00				    | Speed limit (60km/h)      							|
