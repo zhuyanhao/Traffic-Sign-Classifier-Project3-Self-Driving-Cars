@@ -20,10 +20,13 @@ The goals / steps of this project are the following:
 [image2]: ./figures/30km_h.PNG "Original"
 [image3]: ./figures/30km_h_gray.PNG "Grayscale"
 [image4]: ./figures/distribution_original.PNG "Original Dataset Distribution"
-[image5]: ./examples/placeholder.png "Traffic Sign 2"
-[image6]: ./examples/placeholder.png "Traffic Sign 3"
-[image7]: ./examples/placeholder.png "Traffic Sign 4"
-[image8]: ./examples/placeholder.png "Traffic Sign 5"
+[image5]: ./figures/distribution_modified.PNG "Modified Dataset Distribution"
+[image6]: ./my_traffic_sign/1.png "Traffic Sign 1"
+[image7]: ./my_traffic_sign/2.png "Traffic Sign 2"
+[image8]: ./my_traffic_sign/3.png "Traffic Sign 3"
+[image9]: ./my_traffic_sign/4.png "Traffic Sign 4"
+[image10]: ./my_traffic_sign/5.png "Traffic Sign 5"
+[image11]: ./examples/placeholder.png "Traffic Sign 5"
 
 ## Rubric Points
 ### Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/481/view) individually and describe how I addressed each point in my implementation.  
@@ -72,7 +75,9 @@ Here is an example of a traffic sign image before and after grayscaling.
 
 I've also done some affine transformation to increase the number of traffic signs. The dataset given is imbalanced; some types of traffic sings outnumber the others. This does impair the network performance quite a lot. Without any data augmentation, the accuracy of classifier can hardly surpass 90%. The mistakes made has a strong correlation with the number of samples for each type of sign. 
 
-So, the main purpose of this step is simply to make dataset more balanced. This could be done by any types of affine transformation. 
+So, the main purpose of this step is simply to make dataset more balanced. This could be done by any types of affine transformation. A decent solution is provided by Ryein C. Goddard (https://github.com/Goddard/udacity-traffic-sign-classifier) where a few random alternation is done on the original figure. The solution is modified in my project so that the validation set also participates in this step, which is more reasonable IMO. After this is done, the dataset becomes more evenly-distributed, as is shown below:
+
+![alt text][image5]
 
 After the dataset is generated, normalization suggested in the lecture is done.
 
@@ -81,23 +86,30 @@ After the dataset is generated, normalization suggested in the lecture is done.
 
 My final model consisted of the following layers:
 
-| Layer         		|     Description	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| Input         		| 32x32x3 RGB image   							| 
-| Convolution 3x3     	| 1x1 stride, same padding, outputs 32x32x64 	|
+| Layer         		|     Description	        					|
+|:---------------------:|:---------------------------------------------:|
+| Input         		| 32x32x1 grayscale image   							|
+| Convolution 5x5     	| 2x2 stride, valid padding, outputs 28x28x6 	|
 | RELU					|												|
-| Max pooling	      	| 2x2 stride,  outputs 16x16x64 				|
-| Convolution 3x3	    | etc.      									|
-| Fully connected		| etc.        									|
-| Softmax				| etc.        									|
-|						|												|
-|						|												|
+| Max pooling	      	| 2x2 stride,  outputs 14x14x6 				|
+| Convolution 5x5	    | 2x2 stride, valid padding, outputs 10x10x16    |
+| RELU					|												|
+| Max pooling	      	| 2x2 stride,  outputs 5x5x16 				|
+| Convolution 1x1	    | 2x2 stride, valid padding, outputs 1x1x412    |
+| RELU					|												|
+| Fully connected		| input 412, output 122        									|
+| RELU					|												|
+| Dropout				| 50% keep        									|
+| Fully connected		| input 122, output 84        									|
+| RELU					|												|
+| Dropout				| 50% keep        									|
+| Fully connected		| input 84, output 43        									|
  
 
 
 #### 3. Describe how you trained your model. The discussion can include the type of optimizer, the batch size, number of epochs and any hyperparameters such as learning rate.
 
-To train the model, I used an ....
+After the data augmentation, the dataset is spliited by sklearn and fed to the network. To train the model, I used Adam optimizer. The learning rate is reduced to 1e-4. The EPOCH is set to 50 and BATCH_SIZE is 128. You can see the trainning history in jupyter notebook.
 
 #### 4. Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93. Include in the discussion the results on the training, validation and test sets and where in the code these were calculated. Your approach may have been an iterative process, in which case, outline the steps you took to get to the final solution and why you chose those steps. Perhaps your solution involved an already well known implementation or architecture. In this case, discuss why you think the architecture is suitable for the current problem.
 
@@ -106,17 +118,17 @@ My final model results were:
 * validation set accuracy of ? 
 * test set accuracy of ?
 
-If an iterative approach was chosen:
+An iterative approach is taken and explained below:
 * What was the first architecture that was tried and why was it chosen?
+I started with the LeNet model given in the lecture. I was only able to achieve around 90% accuracy no matter what parameters I changed.
 * What were some problems with the initial architecture?
+The validation accuracy is lower than required; the test accuracy is roughly the same, which indicates a high bias(under fitting) scenario. So a larger model is needed to decrease the bias.
 * How was the architecture adjusted and why was it adjusted? Typical adjustments could include choosing a different model architecture, adding or taking away layers (pooling, dropout, convolution, etc), using an activation function or changing the activation function. One common justification for adjusting an architecture would be due to overfitting or underfitting. A high accuracy on the training set but low accuracy on the validation set indicates over fitting; a low accuracy on both sets indicates under fitting.
+Since the model is under fitting, it is reasonable to make the model larger and deeper. I added a 1x1 convolution layer before the fully connected layer to increase the nonlinearity of the model. Then the model overfits the training/validation set. So dropout layer is added after each fully connected layer. With these two changes, the model is good enough to meet the requirement of project.
 * Which parameters were tuned? How were they adjusted and why?
+The only hyper parameter tuned is the learning rate. It is decreased from 1e-3 to 1e-4 as the accuracy starts to decrease after only a few iterations with 1e-3. Decreasing it solves the problem.
 * What are some of the important design choices and why were they chosen? For example, why might a convolution layer work well with this problem? How might a dropout layer help with creating a successful model?
-
-If a well known architecture was chosen:
-* What architecture was chosen?
-* Why did you believe it would be relevant to the traffic sign application?
-* How does the final model's accuracy on the training, validation and test set provide evidence that the model is working well?
+Convolution layer is used as it is very common in computer vision task. It shares the parameters in each filter so that the number of parameters is reasonable. Also, spatial correlation can be learned from convolutional layer. Dropout layer is used to prevent over-fitting. The softmax layer is used as it is the most commonly used for classification.
  
 
 ### Test a Model on New Images
@@ -125,8 +137,8 @@ If a well known architecture was chosen:
 
 Here are five German traffic signs that I found on the web:
 
-![alt text][image4] ![alt text][image5] ![alt text][image6] 
-![alt text][image7] ![alt text][image8]
+![alt text][image6] ![alt text][image7] ![alt text][image8] 
+![alt text][image9] ![alt text][image10]
 
 The first image might be difficult to classify because ...
 
